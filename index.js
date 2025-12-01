@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("dotenv").config(); 
 const express = require("express");
 const path = require("path");
 const jwt = require("jsonwebtoken");
@@ -12,6 +13,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+// configurar o express para receber json
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -51,6 +54,27 @@ app.get("/areaLogada", verificarToken, (req, res) => {
     msg: `Você está logado com o ID: ${req.usuarioId} e pode acessar esta área.`,
   });
 });
+
+// rotas de usuario
+const authRoute = require("./routes/authroutes");
+const authController = require("./controllers/authcontroller");
+
+//mudei o /usuario para /auth
+app.use("/auth", authRoute);
+
+// vereficar se vc esta logado
+app.get(
+  "/areaLogada",
+  authController.vereficarAutentificacao,
+  (req, res) => {
+    res.json({
+      msg:
+        "vc está logando com o ID: " +
+        req.authId +
+        " e está permitido a acessar esta área logada",
+    });
+  }
+);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

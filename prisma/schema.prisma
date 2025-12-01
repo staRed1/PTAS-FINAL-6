@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+<<<<<<< HEAD
 model usuario {
   id       Int    @id @default(autoincrement())
   nome     String
@@ -25,4 +26,11 @@ model reserva {
   reservadopara String
   datareserva   String
   numeromesa    Int
+=======
+model auth {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  email     String  @unique
+  password  String
+>>>>>>> 8934edb6cd00268982de71d7db50c7e3e17ac1cd
 }
